@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>The Library</h1>
+    <div class="libraryPage">
+        <div class="leftArea">
+            <h2>Add title</h2>
+            <form id="submitForm" onsubmit="addBookToLibrary(event)">
+                <div class="inputArea">
+                    <div class="inputs input1">
+                        <label for="bookTitle">Title :</label>
+                        <input type="text" name="" id="bookTitle" required>
+                    </div>
+                    <div class="inputs input2">
+                        <label for="bookAuthor">Author :</label>
+                        <input type="text" name="" id="bookAuthor" required>
+                    </div>
+                    <div class="inputs input3">
+                        <label for="bookPages">No. of Pages :</label>
+                        <input type="number" name="" id="bookPages" required>
+                    </div>
+                    <div class="inputs input4">
+                        <p>Have you read it?</p>
+                        <select name="bookRead" id="bookRead" required>
+                            <option value="" selected disabled>Have you read it?</option>
+                            <option value="Read">Yes</option>
+                            <option value="Not Read">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="addBook">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="rightArea">
+            <div class="displayArea">
+                <h2>My Titles</h2>
+                <div class="myTitles">
+                    <!-- <div id="outputBook0">
+                        <p id="outputTitle0">Sapiens</p>
+                        <p id="outputAuthor0">Yuval Noah Harari</p>
+                        <p id="outputPages0">400 pages</p>
+                        <p id="outputIsRead0">Read</p>
+                        <button id="removeBook0">Remove</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const myLibrary = [
+        // {
+        //     title: 'Homo deus',
+        //     author: 'Harari',
+        //     pages: 296,
+        //     read: 'no'
+        // },
+        // {
+        //     title: 'Naval',
+        //     author: 'Eric jorgenson',
+        //     pages: 296,
+        //     read: 'yes'
+        // }
+    ];
+
+
+
+    function Book(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
+
+    const title = document.querySelector('#bookTitle')
+    const author = document.querySelector('#bookAuthor')
+    const pages = document.querySelector('#bookPages')
+    const read = document.querySelector('#bookRead')
+    const myTitles = document.querySelector('.myTitles')
+    
+    function addBookToLibrary(event) {
+        event.preventDefault();
+        const newTitle = title.value;
+        const newAuthor = author.value;
+        const newPages = pages.value;
+        const newRead = read.value;
+        console.log(newRead);
+
+        const newBook = new Book(newTitle, newAuthor, newPages, newRead);
+        myLibrary.push(newBook);
+
+            function displayBook() {
+                const displayBook = document.createElement('div');
+                myTitles.appendChild(displayBook);
+                displayBook.setAttribute('id', 'displayBook')
+
+                const displayTitle = document.createElement('p');
+                displayBook.appendChild(displayTitle);
+
+                
+                const displayAuthor = document.createElement('p');
+                displayBook.appendChild(displayAuthor);
+                
+                const displayPages = document.createElement('p');
+                displayBook.appendChild(displayPages);
+                
+                const displayRead = document.createElement('button');
+                displayRead.addEventListener('click', () => {
+                    if(displayRead.textContent === 'Read') {
+                        displayRead.textContent = 'Not Read'
+                    } else if(displayRead.textContent === 'Not Read') {
+                        displayRead.textContent = 'Read';
+                    }
+                })
+                
+                displayBook.appendChild(displayRead);
+
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.textContent = 'Remove';
+                displayBook.appendChild(removeBtn)
+
+                
+                function displayTitles() {
+                    for(let i=0; i<myLibrary.length; i++) {
+                        displayTitle.textContent = `${myLibrary[i].title}`;
+                        displayAuthor.textContent = `${myLibrary[i].author}`;
+                        displayPages.textContent = `${myLibrary[i].pages}`;
+                        displayRead.textContent = `${myLibrary[i].read}`;
+                    }
+                } displayTitles()
+
+                const books = Array.from(document.querySelectorAll('#displayBook'));
+                function setIndexValue() {
+                    books.forEach(book => book.setAttribute('data-id', `${books.indexOf(book)}`))
+                    books.forEach(book => index = book.getAttribute('data-id'));
+                } setIndexValue()
+
+                removeBtn.addEventListener('click', () => {
+                    displayBook.remove()
+                    books.splice(index, 1);
+                })
+
+                console.log(myLibrary);
+            }
+
+            displayBook()
+            // console.log(myLibrary);
+    }
+
+
+</script>
+</html>
